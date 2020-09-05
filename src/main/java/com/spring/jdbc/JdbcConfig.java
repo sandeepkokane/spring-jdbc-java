@@ -1,6 +1,7 @@
 package com.spring.jdbc;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -10,9 +11,10 @@ import com.spring.jdbc.dao.ProductDao;
 import com.spring.jdbc.dao.ProductDaoImpl;
 
 @Configuration
+@ComponentScan(basePackages = "com.spring.jdbc")
 public class JdbcConfig {
 	
-	@Bean
+	@Bean("dataSource")
 	public DriverManagerDataSource getDataSource() {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -22,7 +24,7 @@ public class JdbcConfig {
 		return  ds;
 	}
 	
-	@Bean
+	@Bean("jdbcTemplate")
 	public JdbcTemplate jdbcTemplate() {
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
@@ -30,9 +32,11 @@ public class JdbcConfig {
 		return jdbcTemplate;
 	}
 	
+	@Bean("productDao")
 	public ProductDao getProductDao()
 	{
-		ProductDao productDao = new ProductDaoImpl();		
+		ProductDao productDao = new ProductDaoImpl();
+		
 		return productDao;
 	}
 }
